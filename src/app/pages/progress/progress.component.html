@@ -1,3 +1,58 @@
-<p>
-  progress works!
-</p>
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title">Barra de progreso</div>
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" [attr.ariaValueNow]="progressAzul" aria-valuemin="0"
+            aria-valuemax="100" [style.width]="progressAzul + '%'"></div>
+        </div>
+        <br/>
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" [attr.ariaValueNow]="progressVerde" aria-valuemin="0"
+              aria-valuemax="100" [style.width]="progressVerde + '%'"></div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+      <div class="card">
+        <div class="card-body">
+
+          <app-incrementador (cambioValor)="actualizarAzul($event)" nombre="Progress azul" [progress]="progressAzul"></app-incrementador>
+
+          <!-- <div class="input-group">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" type="button" (click)="cambiarValor(-5)">
+                <i class="mdi mdi-minus"></i>
+              </button>
+            </span>
+            <input type="text" class="form-control" name="progress" [(ngModel)]="progress">
+            <span class="input-group-btn">
+                <button class="btn btn-primary" type="button" (click)="cambiarValor(+5)">
+                  <i class="mdi mdi-plus"></i>
+                </button>
+              </span>
+          </div> -->
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+        <div class="card">
+          <div class="card-body">
+              <app-incrementador (cambioValor)="actualizarVerde($event)" nombre="Progress verde" [progress]="progressVerde"></app-incrementador>
+          </div>
+        </div>
+      </div>
+  </div>
+<!-- ============================================================== -->
+<!-- End PAge Content -->
+<!-- ============================================================== -->
