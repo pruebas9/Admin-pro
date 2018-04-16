@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
   }
 
   // =================================================================================
-  // Función para el login
+  // Función para el login normal
   // =================================================================================
   ingresar(formLogin: NgForm) {
 
@@ -58,6 +58,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
+
   // =================================================================================
   // Función para el Sign In de Google
   // =================================================================================
@@ -72,7 +73,7 @@ export class LoginComponent implements OnInit {
       });
 
       // Llamamos a la función que controla el clic en el botón de sign In de Google
-      this.pulsarSignIn( document.getElementById('btn-google'));
+      this.pulsarSignIn( document.getElementById('btn-google')); // Pasamos el id del elemento html donde hacemos clic
     });
   }
 
@@ -83,11 +84,15 @@ export class LoginComponent implements OnInit {
 
     this.auth2.attachClickHandler( elementoHtml, {}, (googleUser)  => {
 
-      // Obtenemos el perfil de la cuenta de Google
-      // const profile = googleUser.getBasicProfile();
-      // Obtenemos el token para poder trabajar con él
-      const token = googleUser.getAuthResponse().id_token;
-      console.log(token);
+      // const profile = googleUser.getBasicProfile(); // Obtenemos el perfil de la cuenta de Google
+      const token = googleUser.getAuthResponse().id_token; // Obtenemos el token para poder trabajar con él
+
+      // Llamamos al método del servicio UsuarioService que hace la petición a la API y le pasamos el token
+      this._usuarioService.loginGoogle(token).subscribe( () => {
+        // La API nos retorna los datos del usuario y un token nuestro interno de nuestra aplicación
+        console.log(token);
+        this.router.navigate(['/dashboard']); // Redireccionamos al dashboard
+      });
 
     });
 
