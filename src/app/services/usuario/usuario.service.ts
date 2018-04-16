@@ -2,9 +2,12 @@ import { Injectable } from '@angular/core';
 import { Usuario } from '../../models/usuario.model'; // Modelo de Usuario
 import { HttpClient } from '@angular/common/http'; // Para hacer petición http a la API
 import { URL_SERVICIO } from '../../config/config'; // Llamo al fichero config de constantes
+import { Router } from '@angular/router'; // Para trabajar con redirecciones
+
 
 // Imports de los observables
 import 'rxjs/add/operator/map';
+
 
 @Injectable()
 export class UsuarioService {
@@ -14,7 +17,8 @@ export class UsuarioService {
   token: string;
 
   constructor(
-    public http: HttpClient
+    public http: HttpClient,
+    public router: Router
   ) {
     // Llamamos a la función que carga el localStorage
     this.cargarStorage();
@@ -121,6 +125,23 @@ export class UsuarioService {
   estaLogueado() {
 
     return (this.token.length > 5) ? true : false; // Si hay token (mayor de 5 caracteres) devuelvo true
+  }
+
+  // =================================================================================
+  // Función para el logout
+  // =================================================================================
+  logout() {
+
+    // Reseteamos las propiedades token y usuario
+    this.token = null;
+    this.usuario = null;
+
+    // Vaciamos token y ususario del localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+    localStorage.removeItem('id')
+
+    this.router.navigate(['/login']); // Redireccionamos al login
   }
 }
 
