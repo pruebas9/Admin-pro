@@ -139,7 +139,7 @@ export class UsuarioService {
     // Vaciamos token y ususario del localStorage
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
-    localStorage.removeItem('id')
+    localStorage.removeItem('id');
 
     this.router.navigate(['/login']); // Redireccionamos al login
   }
