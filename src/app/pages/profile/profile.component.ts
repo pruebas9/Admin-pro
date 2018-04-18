@@ -11,6 +11,7 @@ export class ProfileComponent implements OnInit {
 
   usuario: Usuario;
   imagenSubir: File; // Propiedad para la subida de imagenes del usuario
+  imagenPreview: string; // Propiedad para la preview de la imagen a mostrar antes de subir
 
   constructor(
     public _usuarioService: UsuarioService
@@ -55,8 +56,24 @@ export class ProfileComponent implements OnInit {
       return;
     }
 
+    // Controlamos que el archivo contenga en su atributo 'type' la palabra 'image' (sea una imagen)
+    // Si NO es una imagen...
+    if (archivo.type.indexOf('image') < 0) {
+      swal('Sólo están permitidas imágenes', 'El archivo seleccionando no es una imagen', 'error');
+      this.imagenSubir = null;
+      return;
+    }
+
     // Seteamos en la propiedad el fichero que nos pasan
     this.imagenSubir = archivo;
+
+    // Vamos a mostrar la imagen con su url temporal. con JS nativo
+    const  reader = new FileReader();
+    const urlImagenPreview = reader.readAsDataURL(archivo);
+
+    reader.onloadend = () => {
+      this.imagenPreview = reader.result;
+    };
 
   }
 

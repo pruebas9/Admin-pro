@@ -32,10 +32,13 @@
 
   <div class="col-lg-5">
       <div class="card">
-        <div class="card-body">
+        <div class="card-body" align="center">
             <h4 class="card-title">Foto del usuario</h4>
-            <h6 class="card-subtitle">Nombre del usuario</h6>
-            <img src="">
+            <h6 class="card-subtitle">{{ usuario.nombre }}</h6>
+            <!-- Mostramos una u otra según imagenPreview exista o no -->
+            <img *ngIf="!imagenPreview" [src]="usuario.img | imagen" class="w150">
+            <img *ngIf="imagenPreview" [src]="imagenPreview" class="w150">
+
             <input (change)="seleccionImagen($event.target.files[0])" type="file">
             <br><br>
             <button (click)="cambiarImagen()" [disabled]="!imagenSubir" type="button" class="btn btn-block btn-success waves-effect waves-light m-r-10">

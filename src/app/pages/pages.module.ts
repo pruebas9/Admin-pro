@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 // Rutas
 import { PAGES_ROUTES } from './pages.routes';
@@ -31,7 +32,6 @@ import { ProfileComponent } from './profile/profile.component';
 
 
 
-
 @NgModule({
   declarations: [
     PagesComponent,
@@ -51,6 +51,7 @@ import { ProfileComponent } from './profile/profile.component';
     Graficas1Component,
   ],
   imports: [
+    CommonModule,
     SharedModule,
     PAGES_ROUTES,
     FormsModule,
