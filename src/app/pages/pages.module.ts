@@ -26,6 +26,9 @@ import { ChartsModule } from 'ng2-charts';
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 
+// Perfil usuario
+import { ProfileComponent } from './profile/profile.component';
+
 
 
 
@@ -39,7 +42,8 @@ import { RxjsComponent } from './rxjs/rxjs.component';
     GraficoDonaComponent,
     AccountSettingsComponent,
     PromesasComponent,
-    RxjsComponent
+    RxjsComponent,
+    ProfileComponent
   ],
   exports: [
     DashboardComponent,

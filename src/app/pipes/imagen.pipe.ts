@@ -45,8 +45,6 @@ export class ImagenPipe implements PipeTransform {
 
     }
 
-    console.log(url);
-
   return url; // Retornamos la ruta de la imagen
 
   }

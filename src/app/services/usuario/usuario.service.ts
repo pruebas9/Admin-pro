@@ -45,7 +45,34 @@ export class UsuarioService {
 
 
   // =================================================================================
-  // Función para iniciar sesión con un usuario (Login normal) 
+  // Función para actualizar usuario
+  // =================================================================================
+  actualizarUsuario(usuario: Usuario) {
+
+    let url = URL_SERVICIO + '/usuario/' + usuario._id; // Url de la petición con el id del usuario
+    url += '?token=' +  this.token; // Concatenamos el token en la url porque la petición lo requiere
+
+    // Hacemos la petición a la API para actualizar el usuario
+    return this.http.put(url, usuario).map( (response: any) => {
+
+      // Guardo en variable local la respuesta de la API (actualizada)
+      const usuarioDB: Usuario = response.usuario;
+
+      // Guardo la respuesta actualizada en el localStorage
+      this.guardarEnLocalStorage(usuarioDB._id, this.token, usuarioDB);
+
+      // Si la respuesta es correcta, tengo el usuario actualizado, envío una alerta
+      swal('Usuario actualizado', usuario.nombre, 'success');
+
+      return true;
+
+    });
+
+  }
+
+
+  // =================================================================================
+  // Función para iniciar sesión con un usuario (Login normal)
   // =================================================================================
   login(usuario: Usuario, recuerdame: boolean = false) {
 
@@ -143,5 +170,6 @@ export class UsuarioService {
 
     this.router.navigate(['/login']); // Redireccionamos al login
   }
+
 }
 
