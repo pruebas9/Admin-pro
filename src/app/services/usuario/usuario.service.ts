@@ -195,5 +195,18 @@ export class UsuarioService {
               console.log(response);
             });
   }
+
+
+  // =================================================================================
+  // Función para cargar y listar los usuarios paginados
+  // Parametros: desde: number, para saber desde qué registro voy a mostrar, por defecto será 0. (Paginación)
+  // =================================================================================
+  cargarUsuarios(desde: number = 0) {
+
+    const url = URL_SERVICIO + '/usuario?desde=' + desde; // Url para la petición
+
+    return this.http.get(url);
+
+  }
 }
 
