@@ -2,7 +2,7 @@
   <div class="col-12">
     <div class="card">
         <div class="card-body">
-          <input type="text" class="form-control" placeholder="Buscar usuario"/>
+          <input #input (keyup)="buscarUsuario(input.value)" type="text" class="form-control" placeholder="Buscar usuario"/>
         </div>
     </div>
   </div>
@@ -10,7 +10,7 @@
 
 <div class="row animated fadeIn">
   <div class="col-sm-12">
-  <div class="alert alert-warning text-center">
+  <div class="alert alert-warning text-center" *ngIf="cargando">
     <strong>Cargando</strong>
     <br>
     <i class="fa fa-refresh fa-spin fa-2x"></i>
@@ -20,7 +20,7 @@
   </div>
 </div>
 
-<div class="row animated fadeIn">
+<div class="row animated fadeIn" *ngIf="!cargando">
   <div class="col-12">
     <div class="card">
         <div class="card-body">
@@ -39,13 +39,15 @@
             </thead>
             <tbody>
               <tr *ngFor="let usuario of usuarios">
-                <td></td>
+                <td class="w70">
+                  <img [src]="usuario.img | imagen" [alt]="usuario.img" class="img50 img-circle">
+                </td>
                 <td>{{ usuario.email }}</td>
                 <td>{{ usuario.nombre}}</td>
                 <td>{{ usuario.role}}</td>
                 <td>
-                  <label class="label label-danger">Google</label>
-                  <label class="label label-info">Normal</label>
+                  <label *ngIf="usuario.google" class="label label-danger">Google</label>
+                  <label *ngIf="!usuario.google" class="label label-info">Normal</label>
                 </td>
                 <td>
                   <!-- Incrementamos variable 'desde' para la paginación -->
@@ -56,8 +58,8 @@
             </tbody>
           </table>
 
-          <button (click)="cambiarDesde(-2)" class="btn btn-secondary">Anteriores</button>
-          <button (click)="cambiarDesde(2)" class="btn btn-secondary">Siguientes</button>
+          <button (click)="cambiarDesde(-5)" class="btn btn-secondary">Anteriores</button>
+          <button (click)="cambiarDesde(5)" class="btn btn-secondary">Siguientes</button>
 
         </div>
     </div>

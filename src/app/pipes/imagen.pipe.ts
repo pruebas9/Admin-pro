@@ -11,12 +11,6 @@ export class ImagenPipe implements PipeTransform {
   // Recibimos la imagen y el tipo de imagen que por defecto será 'usuario'
   transform(imagen: string, tipo_archivo: string = 'usuario'): any {
 
-    // Si en la url viene un 'https' es que la imagen es de un usuario de Google
-    if (imagen.indexOf('https') >= 0) {
-      // Retornamos esa misma imagen porque ya tiene url formada en los servidores de Google
-      return imagen;
-    }
-
     // Variable para construir la ruta de la imagen (la ruta del servidor)
     let url = URL_SERVICIO + '/imagen';
 
@@ -24,6 +18,13 @@ export class ImagenPipe implements PipeTransform {
     if (!imagen) {
       return url + '/usuarios/imagen_default';
     }
+
+    // Si en la url viene un 'https' es que la imagen es de un usuario de Google
+    if (imagen.indexOf('https') >= 0) {
+      // Retornamos esa misma imagen porque ya tiene url formada en los servidores de Google
+      return imagen;
+    }
+
 
     // Si no viene 'https' pueden ser 3 tipos de imagen
     switch ( tipo_archivo ) {

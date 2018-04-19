@@ -15,6 +15,8 @@ export class UsuariosComponent implements OnInit {
   desde: number = 0; // Variable para controlar la paginación (mostrar desde)
   totalRegistros: number = 0; // Para la paginación, controla el total de registros arrojados desde la API
 
+  cargando: boolean = true; // Para controlar el spinner de cargando
+
   constructor(
     public _usuarioService: UsuarioService
   ) { }
@@ -31,11 +33,15 @@ export class UsuariosComponent implements OnInit {
   // =================================================================================
   cargarUsuarios() {
 
+    this.cargando = true; // Ponemos la variable a cargar...
+
     // Llamo a la función que hace la petición a la API para listar los usuarios
     this._usuarioService.cargarUsuarios(this.desde).subscribe( (response: any) => {
 
       this.totalRegistros = response.total; // Seteo la propiedad con el total de registros
       this.usuarios = response.usuarios; // Seteo la propiedad array con el array que viene de la API
+
+      this.cargando = false; // Quitamos la variable de cargando...
 
     });
   }
@@ -63,6 +69,34 @@ export class UsuariosComponent implements OnInit {
 
     // Llammo a la función para que arroje más registros
     this.cargarUsuarios();
+  }
+
+
+  // =================================================================================
+  // Función para buscar usuarios
+  // Parametros: término de búsqueda (string). Es el 'input.value' del input de búsqueda
+  // =================================================================================
+  buscarUsuario(termino: string) {
+
+
+    // Si la longitud del término menor o igual a 0 (no haya término)
+    if (termino.length <= 0) {
+      this.cargarUsuarios(); // Mostramos todos los usuarios
+      return;
+    }
+
+    this.cargando = true; // Mostramos cargando...
+
+    // Llamamos al método del servicio. En el subscribe recibimos un array de usuarios
+    this._usuarioService.buscarUsuarios(termino).subscribe( (usuarios: Usuario[]) => {
+
+      // Seteamos la propiedad con los valores que nos vienen en el array
+      this.usuarios = usuarios;
+
+      this.cargando = false; // Quitamos el cargando...
+
+    });
+
   }
 
 

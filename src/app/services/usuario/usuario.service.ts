@@ -5,9 +5,9 @@ import { URL_SERVICIO } from '../../config/config'; // Llamo al fichero config d
 import { Router } from '@angular/router'; // Para trabajar con redirecciones
 import { SubirArchivoService } from '../subir-archivos/subir-archivo.service';
 
+
 // Imports de los observables
 import 'rxjs/add/operator/map';
-
 
 
 @Injectable()
@@ -205,7 +205,22 @@ export class UsuarioService {
 
     const url = URL_SERVICIO + '/usuario?desde=' + desde; // Url para la petición
 
+    // Hago la petición al método de la API
     return this.http.get(url);
+
+  }
+
+
+  // =================================================================================
+  // Función para hacer la petición al método de búsqueda de usuarios de la API
+  // Parametros: termino a buscar (string)
+  // =================================================================================
+  buscarUsuarios (termino: string) {
+
+    const url = URL_SERVICIO + '/buscar/coleccion/usuarios/' + termino; // Url para la petición
+    
+    // Hago la petición al método de la API
+    return this.http.get(url).map((response: any) => response.coleccion); // Envío la respuesta con el array que me devuelve la API
 
   }
 }
