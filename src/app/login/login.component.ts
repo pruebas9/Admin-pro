@@ -90,8 +90,8 @@ export class LoginComponent implements OnInit {
       // Llamamos al método del servicio UsuarioService que hace la petición a la API y le pasamos el token
       this._usuarioService.loginGoogle(token).subscribe( () => {
         // La API nos retorna los datos del usuario y un token nuestro interno de nuestra aplicación
-        console.log(token);
-        this.router.navigate(['/dashboard']); // Redireccionamos al dashboard
+        // console.log(token);
+        window.location.href = '#/dashboard'; // Redireccionamos 'a mano' al dashboard por problemas con el router.navigate
       });
 
     });
