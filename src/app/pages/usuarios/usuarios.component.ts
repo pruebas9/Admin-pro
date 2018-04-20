@@ -102,7 +102,7 @@ export class UsuariosComponent implements OnInit {
 
   // =================================================================================
   // Función para borrar usuarios
-  // Parametros: usuario que hace el click
+  // Parametros: usuario en el que hacemos click
   // =================================================================================
   borrarUsuario( usuario: Usuario) {
 
@@ -133,6 +133,17 @@ export class UsuariosComponent implements OnInit {
           });
         }
       });
+  }
+
+
+  // =================================================================================
+  // Función para actualizar los datos del usuario
+  // Parametros: usuario en el que hacemos click
+  // =================================================================================
+  guardarUsuario(usuario: Usuario) {
+
+    // Llamo a la función del servicio de usuario que hace la petición de actualizar usuario
+    this._usuarioService.actualizarUsuario(usuario).subscribe(); // No necesito controlar nada en la respuesta
   }
 
 

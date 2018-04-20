@@ -57,11 +57,16 @@ export class UsuarioService {
     // Hacemos la petición a la API para actualizar el usuario
     return this.http.put(url, usuario).map( (response: any) => {
 
-      // Guardo en variable local la respuesta de la API (actualizada)
-      const usuarioDB: Usuario = response.usuario;
+      // Solo guardo en localStorage si el usuario soy yo mismo
+      if (usuario._id === this.usuario._id) {
 
-      // Guardo la respuesta actualizada en el localStorage
-      this.guardarEnLocalStorage(usuarioDB._id, this.token, usuarioDB);
+        // Guardo en variable local la respuesta de la API (actualizada)
+        const usuarioDB: Usuario = response.usuario;
+
+        // Guardo la respuesta actualizada en el localStorage
+        this.guardarEnLocalStorage(usuarioDB._id, this.token, usuarioDB);
+      }
+
 
       // Si la respuesta es correcta, tengo el usuario actualizado, envío una alerta
       swal('Usuario actualizado', usuario.nombre, 'success');
