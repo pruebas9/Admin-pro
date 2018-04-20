@@ -100,5 +100,41 @@ export class UsuariosComponent implements OnInit {
   }
 
 
+  // =================================================================================
+  // Función para borrar usuarios
+  // Parametros: usuario que hace el click
+  // =================================================================================
+  borrarUsuario( usuario: Usuario) {
+
+      // Usuario no puede borrarse a sí mismo
+      if ( usuario._id === this._usuarioService.usuario._id) {
+        swal('No puede borrar este usuario', 'No se puede borrar a sí mismo', 'error');
+        return;
+      }
+
+      // Pop up de confirmación para eliminar el usuario
+      swal({
+        title: 'Está seguro?',
+        text: 'Está a punto de borrar a ' +  usuario.nombre,
+        icon: 'warning',
+        dangerMode: true,
+      })
+      .then(borrar => {
+
+        // Si recibo un true llamo al método del servicio usuario que hace petición a la API para borrar
+        if (borrar) {
+          this._usuarioService.borrarUsuario(usuario._id).subscribe( (borrado: boolean) => {
+
+            // Llamamos a la función que lista los usuarios de nuevo
+            this.cargarUsuarios();
+
+            // TODO: hacer que al eliminar el usuario vuelva a la página 1
+
+          });
+        }
+      });
+  }
+
+
 }
 

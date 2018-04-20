@@ -210,7 +210,6 @@ export class UsuarioService {
 
   }
 
-
   // =================================================================================
   // Función para hacer la petición al método de búsqueda de usuarios de la API
   // Parametros: termino a buscar (string)
@@ -218,9 +217,26 @@ export class UsuarioService {
   buscarUsuarios (termino: string) {
 
     const url = URL_SERVICIO + '/buscar/coleccion/usuarios/' + termino; // Url para la petición
-    
+
     // Hago la petición al método de la API
     return this.http.get(url).map((response: any) => response.coleccion); // Envío la respuesta con el array que me devuelve la API
+
+  }
+
+  // =================================================================================
+  // Función para hacer la petición al método de borrar usuarios de la API
+  // Parametros: el id del usuario a borrar
+  // =================================================================================
+  borrarUsuario (id: string) {
+
+    const url = URL_SERVICIO + '/usuario/' + id + '?token=' + this.token; // Url para la petición
+
+    // Hago la petición al método de la API
+    return this.http.delete(url).map( response => {
+
+      swal('Eliminado!', 'El usuario ha sido eliminado correctamente', 'success');
+      return true;
+    });
 
   }
 }
