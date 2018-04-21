@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../../models/usuario.model'; // Cargamos el modelo de Usuario
 import { UsuarioService } from '../../services/service.index';
+import { ModalUploadService } from '../../components/modal-upload/modal-upload.service';
 
 
 @Component({
@@ -18,12 +19,20 @@ export class UsuariosComponent implements OnInit {
   cargando: boolean = true; // Para controlar el spinner de cargando
 
   constructor(
-    public _usuarioService: UsuarioService
+    public _usuarioService: UsuarioService,
+    public _modalUploadService: ModalUploadService // Para controlar el modal de subir imágenes
   ) { }
 
   ngOnInit() {
     // Llamo a la función al cargar todo
     this.cargarUsuarios();
+    // Nos suscribimos al evento EventEmitter del servicio del modal
+    this._modalUploadService.notificacion.subscribe( response => {
+
+      // Cargamos los usuario sin más
+      this.cargarUsuarios();
+
+    });
   }
 
 
@@ -144,6 +153,18 @@ export class UsuariosComponent implements OnInit {
 
     // Llamo a la función del servicio de usuario que hace la petición de actualizar usuario
     this._usuarioService.actualizarUsuario(usuario).subscribe(); // No necesito controlar nada en la respuesta
+  }
+
+
+
+  // =================================================================================
+  // Función para mostrar el modal de subir imagen al hacer click en la imagen del usuario
+  // Parametros: El id del usuario en el que hemos hecho click
+  // =================================================================================
+  mostrarModal(id: string) {
+
+    // Llamo a la función del servicio que muestra modal, le paso el tipo 'usuarios' y el id
+    this._modalUploadService.mostrarModal('usuarios', id);
   }
 
 

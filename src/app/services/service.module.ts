@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http'; // Para hacer petición http a la API
+import { ModalUploadService } from '../components/modal-upload/modal-upload.service';
 
 // Importamos los servicios
 import {
@@ -9,8 +10,9 @@ import {
   SharedService,
   UsuarioService,
   LoginGuardGuard,
-  SubirArchivoService
+  SubirArchivoService,
 } from './service.index';
+
 
 
 @NgModule({
@@ -24,7 +26,8 @@ import {
     SharedService,
     UsuarioService,
     LoginGuardGuard,
-    SubirArchivoService
+    SubirArchivoService,
+    ModalUploadService
   ],
   declarations: []
 })
