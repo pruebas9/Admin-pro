@@ -90,4 +90,19 @@ export class MedicosComponent implements OnInit {
     });
   }
 
+
+  // =================================================================================
+  // Función para buscar un médico por un término de búsqueda
+  // Parametros: término de búsqueda para el médico
+  // =================================================================================
+  borrarMedico(medico: Medico) {
+
+    // Llamamos al método del servicio. En el subscribe recibimos un array de usuarios
+    this._medicoService.borrarMedico(medico._id).subscribe( (response: any) => {
+
+      this.cargarMedicos(); // Cargamos los médicos después del borrado
+
+    });
+  }
+
 }
