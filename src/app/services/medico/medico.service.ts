@@ -63,4 +63,22 @@ export class MedicoService {
   }
 
 
+  // =================================================================================
+  // Función para guardar un médico. Vale para crear y para actualizar
+  // Parámetros: el objeto médico de donde podremos sacar sus datos
+  // =================================================================================
+  guardarMedico(medico: Medico) {
+
+    const url = URL_SERVICIO + '/medico?token=' + this._usuarioService.token;
+
+    // Llamo al método de la API y paso el médico con todos los datos
+    return this.http.post(url, medico).map((response: any) => {
+
+      swal('Médico creado!', 'El médico ' + response.medico.nombre + ' se ha creado correctamente', 'success');
+      return response.medico;
+
+    });
+  }
+
+
 }

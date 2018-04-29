@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Medico } from '../../models/medico.model';
-import { MedicoService } from '../../services/service.index';
+import { MedicoService, HospitalService } from '../../services/service.index';
+import { NgForm } from '@angular/forms';
+import { Hospital } from '../../models/hospital.model';
+
 
 @Component({
   selector: 'app-medicos',
@@ -9,10 +12,11 @@ import { MedicoService } from '../../services/service.index';
 })
 export class MedicosComponent implements OnInit {
 
-  medicos: Medico[] = [];     // Array de médicos
-  desde: number = 0;          // Para controlar la paginación
+  medicos: Medico[] = [];       // Array de médicos
+  desde: number = 0;            // Para controlar la paginación
   totalRegistros: number = 0;
-  cargando: boolean = false;  // Controla el loading
+  cargando: boolean = false;    // Controla el loading
+
 
   constructor(
     public _medicoService: MedicoService
