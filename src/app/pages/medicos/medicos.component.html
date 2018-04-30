@@ -34,7 +34,7 @@
                     <tr *ngFor="let medico of medicos">
                       <td class="w70">
                         <!-- Indicamos al pipe el tipo de imagen para que no cargue por defecto la de usuarios -->
-                        <img (click)="actualizarImagen(medico)" [src]="medico.img | imagen:'medico'" class="img50 pointer">
+                        <img (click)="cambiarImagen(medico._id)" [src]="medico.img | imagen:'medico'" class="img50 pointer">
                       </td>
                       <td>
                           {{ medico.nombre }}

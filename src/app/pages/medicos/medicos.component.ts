@@ -3,6 +3,8 @@ import { Medico } from '../../models/medico.model';
 import { MedicoService, HospitalService } from '../../services/service.index';
 import { NgForm } from '@angular/forms';
 import { Hospital } from '../../models/hospital.model';
+import { ModalUploadService } from '../../components/modal-upload/modal-upload.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -19,7 +21,9 @@ export class MedicosComponent implements OnInit {
 
 
   constructor(
-    public _medicoService: MedicoService
+    public _medicoService: MedicoService,
+    public _modalUploadService: ModalUploadService,
+    public router: Router
   ) { }
 
   ngOnInit() {
@@ -38,8 +42,6 @@ export class MedicosComponent implements OnInit {
 
       this.totalRegistros = response.total;
       this.medicos = response.medicos;
-
-      console.log(response);
 
     });
   }
@@ -107,6 +109,20 @@ export class MedicosComponent implements OnInit {
       this.cargarMedicos(); // Cargamos los médicos después del borrado
 
     });
+  }
+
+
+  // =================================================================================
+  // Función para cambiar la imagen de un médico (abrirá el modal)
+  // Parametros: id del médico al que queremos cambiar la imagen
+  // =================================================================================
+  cambiarImagen(id: string) {
+
+    // Llamamos al servicio para abrir el modal
+    this._modalUploadService.mostrarModal('medicos', id);
+
+    // TODO: recargar la página para que se vea el cambio de la imagen
+
   }
 
 }

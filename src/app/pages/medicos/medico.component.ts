@@ -53,7 +53,7 @@ export class MedicoComponent implements OnInit {
     this._modalUploadService.notificacion.subscribe( (response: any) => {
 
       // Seteo en la propiedad médico la imagen que me viene en la respuesta del servicio para actualizarla
-      this.medico.img = response.medico.img
+      this.medico.img = response.medico.img;
     });
   }
 

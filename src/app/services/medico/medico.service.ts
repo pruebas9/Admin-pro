@@ -69,15 +69,35 @@ export class MedicoService {
   // =================================================================================
   guardarMedico(medico: Medico) {
 
-    const url = URL_SERVICIO + '/medico?token=' + this._usuarioService.token;
+    let url = URL_SERVICIO + '/medico/'; // La url base para las 2 peticiones (put y post)
 
-    // Llamo al método de la API y paso el médico con todos los datos
-    return this.http.post(url, medico).map((response: any) => {
+    // Para diferenciar la creación de la actualización comprobamos si existe el id del médico
+    if (medico._id) {
 
-      swal('Médico creado!', 'El médico ' + response.medico.nombre + ' se ha creado correctamente', 'success');
-      return response.medico;
+      // Actualizamos el médico:
+      url += medico._id + '?token=' + this._usuarioService.token; // Construimos la url correcta para la petición
 
-    });
+      return this.http.put(url, medico).map((response: any) => {
+
+        swal('Médico actualizado!', 'El médico ' + response.medico.nombre + ' se ha actualizado correctamente', 'success');
+        return response.medico;
+
+      });
+
+    } else {
+
+      // Creamos el médico:
+      url += '?token=' + this._usuarioService.token; // Construimos la url correcta para la petición
+
+      return this.http.post(url, medico).map((response: any) => {
+
+        swal('Médico creado!', 'El médico ' + response.medico.nombre + ' se ha creado correctamente', 'success');
+        return response.medico;
+
+      });
+    }
+
+
 
   }
 
