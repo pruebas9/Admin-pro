@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { MedicoService, HospitalService } from '../../services/service.index';
 import { Medico } from '../../models/medico.model';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ModalUploadService } from '../../components/modal-upload/modal-upload.service';
 
 @Component({
   selector: 'app-medico',
@@ -21,7 +22,8 @@ export class MedicoComponent implements OnInit {
     public _medicoService: MedicoService,
     public _hospitalService: HospitalService,
     public router: Router,
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+    public _modalUploadService: ModalUploadService
   ) {
 
     // Con esto controlamos todos los parámetros que tenemos en la ruta
@@ -44,6 +46,14 @@ export class MedicoComponent implements OnInit {
     this._hospitalService.listarHospitales().subscribe( (response: any) => {
 
       this.hospitales = response.hospitales;
+    });
+
+
+    // Nos suscribimos a las notificaciones del servicio del modal para subir imágenes
+    this._modalUploadService.notificacion.subscribe( (response: any) => {
+
+      // Seteo en la propiedad médico la imagen que me viene en la respuesta del servicio para actualizarla
+      this.medico.img = response.medico.img
     });
   }
 
@@ -107,6 +117,17 @@ export class MedicoComponent implements OnInit {
 
     });
 
+  }
+
+
+  // =================================================================================
+  // Función para cambiar la imagen de un médico (abrirá el modal)
+  // Parametros: ninguno
+  // =================================================================================
+  cambiarImagen() {
+
+    // Llamamos al servicio para abrir el modal
+    this._modalUploadService.mostrarModal('medicos', this.medico._id);
   }
 
 }
