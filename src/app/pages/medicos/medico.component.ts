@@ -3,7 +3,7 @@ import { Hospital } from '../../models/hospital.model';
 import { NgForm } from '@angular/forms';
 import { MedicoService, HospitalService } from '../../services/service.index';
 import { Medico } from '../../models/medico.model';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-medico',
@@ -20,8 +20,23 @@ export class MedicoComponent implements OnInit {
   constructor(
     public _medicoService: MedicoService,
     public _hospitalService: HospitalService,
-    public router: Router
-  ) { }
+    public router: Router,
+    public activatedRoute: ActivatedRoute
+  ) {
+
+    // Con esto controlamos todos los parámetros que tenemos en la ruta
+    activatedRoute.params.subscribe( params => {
+
+      // Vamos a sacar el id del médico de la url
+      const id = params['id'];
+
+      // Si lo que venga por parámetro en la url es distinto de 'nuevo' (es decir, que sea la url con el id)
+      if (id !== 'nuevo') {
+
+        this.cargarMedico( id ); // Llamo a la función de cargar la información del médico y le paso el id
+      }
+    });
+  }
 
   ngOnInit() {
 
@@ -68,6 +83,27 @@ export class MedicoComponent implements OnInit {
 
       // Seteamos la info que nos llega en nuestro objeto hospital vacío
       this.hospital = response;
+
+    });
+
+  }
+
+
+  // =================================================================================
+  // Función para cargar la información de un médico.
+  // Parametros: el id del médico
+  // =================================================================================
+  cargarMedico(id: string) {
+
+    // LLamamos al método del servicio que nos da la información del médico
+    this._medicoService.cargarMedico(id).subscribe( (response: any) => {
+
+      // Seteamos la info que nos llega en nuestro objeto médico vacío
+      this.medico = response;
+      // Como hospital es un objeto y necesitamos sólo el id, seteamos esa propiedad (porque el obj médico viene populado)
+      this.medico.hospital = response.hospital._id;
+
+      this.cambiarHospital(this.medico.hospital); // Lanzo la función para que cambie la imagen del hospital
 
     });
 

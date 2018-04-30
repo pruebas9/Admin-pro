@@ -75,7 +75,23 @@ export class MedicoService {
     return this.http.post(url, medico).map((response: any) => {
 
       swal('Médico creado!', 'El médico ' + response.medico.nombre + ' se ha creado correctamente', 'success');
-      console.log('guardar médico: ', response.medico);
+      return response.medico;
+
+    });
+
+  }
+
+  // =================================================================================
+  // Función para cargar un médico y ver su información para, por ejemplo, el update.
+  // Parámetros: el id de ese médico que queremos cargar
+  // =================================================================================
+  cargarMedico(id: string) {
+
+    const url = URL_SERVICIO + '/medico/' + id;
+
+    // Llamo al método de la API
+    return this.http.get(url).map((response: any) => {
+
       return response.medico;
 
     });
