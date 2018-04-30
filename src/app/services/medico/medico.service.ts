@@ -75,9 +75,11 @@ export class MedicoService {
     return this.http.post(url, medico).map((response: any) => {
 
       swal('Médico creado!', 'El médico ' + response.medico.nombre + ' se ha creado correctamente', 'success');
+      console.log('guardar médico: ', response.medico);
       return response.medico;
 
     });
+
   }
 
 
