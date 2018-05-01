@@ -5,11 +5,12 @@ import { ModalUploadService } from '../components/modal-upload/modal-upload.serv
 
 // Importamos los servicios
 import {
+  LoginGuardGuard,
+  AdminGuard,
   SettingsService,
   SidebarService,
   SharedService,
   UsuarioService,
-  LoginGuardGuard,
   SubirArchivoService,
   HospitalService,
   MedicoService
@@ -23,11 +24,12 @@ import {
     HttpClientModule
   ],
   providers: [
+    LoginGuardGuard,
+    AdminGuard,
     SettingsService,
     SidebarService,
     SharedService,
     UsuarioService,
-    LoginGuardGuard,
     SubirArchivoService,
     ModalUploadService,
     HospitalService,
