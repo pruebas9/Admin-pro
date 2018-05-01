@@ -17,6 +17,8 @@ export class UsuarioService {
   usuario: Usuario;
   token: string;
 
+  menu: any = [];   // Para controlar el menú que verá el usuario
+
   constructor(
     public http: HttpClient,
     public router: Router,
@@ -24,6 +26,8 @@ export class UsuarioService {
   ) {
     // Llamamos a la función que carga el localStorage
     this.cargarStorage();
+
+    // console.log(this.menu);
    }
 
 
@@ -64,7 +68,7 @@ export class UsuarioService {
         const usuarioDB: Usuario = response.usuario;
 
         // Guardo la respuesta actualizada en el localStorage
-        this.guardarEnLocalStorage(usuarioDB._id, this.token, usuarioDB);
+        this.guardarEnLocalStorage(usuarioDB._id, this.token, usuarioDB, response.menu);
       }
 
 
@@ -95,8 +99,10 @@ export class UsuarioService {
     // Hacemos la petición a la API para hacer el login y guardamos la respuesta en el LocalStorage
     return this.http.post(url, usuario).map( (response: any) => {
 
+      this.menu = response.menu; // Guardo el menú del usuario que me viene del backend
+
       // Guardamos en el localStorage los datos del usuario que nos response la API
-      this.guardarEnLocalStorage( response.id, response.token, response.usuario);
+      this.guardarEnLocalStorage( response.id, response.token, response.usuario, response.menu);
 
       return true;
     });
@@ -114,7 +120,7 @@ export class UsuarioService {
     return this.http.post(url, { token: token } ).map((response: any) => {
 
       // Guardamos en el localStorage los datos del usuario
-      this.guardarEnLocalStorage( response.id, response.token, response.usuario);
+      this.guardarEnLocalStorage( response.id, response.token, response.usuario, response.menu);
 
       return true; // Retornamos un true si todo sale bien
     });
@@ -124,16 +130,18 @@ export class UsuarioService {
   // =================================================================================
   // Función para guardar datos del usuario en localStorage
   // =================================================================================
-  guardarEnLocalStorage(id: string, token: string, usuario: Usuario) {
+  guardarEnLocalStorage(id: string, token: string, usuario: Usuario, menu: any) {
 
     // Guardamos en el localStorage
     localStorage.setItem('id', id);
     localStorage.setItem('token', token);
     localStorage.setItem('usuario', JSON.stringify(usuario)); // Parseamos el objeto a JSON válido
+    localStorage.setItem('menu', JSON.stringify(menu)); // Parseamos el objeto a JSON válido
 
-    // Seteamos los valores usuario y token en las propiedades
+    // Seteamos los valores usuario, token y menú en las propiedades
     this.usuario = usuario;
     this.token = token;
+    this.menu = menu;
   }
 
   // =================================================================================
@@ -147,9 +155,13 @@ export class UsuarioService {
       // Inicializamos las variables con el valor del localStorage para que nunca sean undefined
       this.token = localStorage.getItem('token');
       this.usuario = JSON.parse(localStorage.getItem('usuario')); // Parseamos a objeto
-    } else {
+      this.menu = JSON.parse(localStorage.getItem('menu'));       // Parseamos a objeto
+
+    } else {  // Si no existe el token destruimos las propiedades
+
       this.token = '';
       this.usuario = null;
+      this.menu = [];
     }
   }
 
@@ -170,10 +182,11 @@ export class UsuarioService {
     this.token = null;
     this.usuario = null;
 
-    // Vaciamos token y ususario del localStorage
+    // Vaciamos token, ususario y menú del localStorage
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
     localStorage.removeItem('id');
+    localStorage.removeItem('menu');
 
     this.router.navigate(['/login']); // Redireccionamos al login
   }
@@ -193,7 +206,7 @@ export class UsuarioService {
               this.usuario.img = response.usuario.img;
 
               // Guardamos en el localStorage y mostramos sweetAlert
-              this.guardarEnLocalStorage(id, this.token, this.usuario);
+              this.guardarEnLocalStorage(id, this.token, this.usuario, this.menu);
               swal('Imagen actualizada', this.usuario.nombre, 'success');
             })
             .catch( response => {
