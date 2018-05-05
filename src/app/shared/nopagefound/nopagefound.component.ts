@@ -13,6 +13,8 @@ declare function init_plugins();
 })
 export class NopagefoundComponent implements OnInit {
 
+  year: number = new Date().getFullYear();  // Para sacar el año en curso
+
   constructor() { }
 
   ngOnInit() {
