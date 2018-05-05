@@ -8,6 +8,8 @@ import { SubirArchivoService } from '../subir-archivos/subir-archivo.service';
 
 // Imports de los observables
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import { Observable } from 'rxjs/Observable';
 
 
 @Injectable()
@@ -97,15 +99,22 @@ export class UsuarioService {
     const url = URL_SERVICIO + '/login'; // Url para la petición
 
     // Hacemos la petición a la API para hacer el login y guardamos la respuesta en el LocalStorage
-    return this.http.post(url, usuario).map( (response: any) => {
+    return this.http.post(url, usuario)
+            .map( (response: any) => {
 
-      this.menu = response.menu; // Guardo el menú del usuario que me viene del backend
+              this.menu = response.menu; // Guardo el menú del usuario que me viene del backend
 
-      // Guardamos en el localStorage los datos del usuario que nos response la API
-      this.guardarEnLocalStorage( response.id, response.token, response.usuario, response.menu);
+              // Guardamos en el localStorage los datos del usuario que nos response la API
+              this.guardarEnLocalStorage( response.id, response.token, response.usuario, response.menu);
 
-      return true;
-    });
+              return true;
+            })
+            .catch (error => {  // Manejo de errores
+
+              // console.log(error.error.mensaje);
+              swal('Error en el login', error.error.mensaje, 'error');
+              return Observable.throw( error );
+            });
   }
 
 
