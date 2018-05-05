@@ -25,7 +25,12 @@
     <div class="card">
         <div class="card-body">
           <h3 class="card-title">Usuarios registrados (<small>{{ totalRegistros}}</small>)</h3>
-
+          <div class="text-right">
+              <button [routerLink]="['/usuario', 'nuevo']" class="btn waves-effect waves-light btn-rounded btn-primary">
+                <i class="fa fa-plus"></i> 
+                Crear usuario
+              </button>
+          </div> 
           <table class="table table-hover">
             <thead>
               <tr>
@@ -55,14 +60,15 @@
                   <label *ngIf="!usuario.google" class="label label-info">Normal</label>
                 </td>
                 <td>
-                  <!-- Incrementamos variable 'desde' para la paginación -->
+                  
                   <button (click)="guardarUsuario(usuario)" class="btn btn-primary"><i class="fa fa-save"></i></button>
                   <button (click)="borrarUsuario(usuario)" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
                 </td>
               </tr>
             </tbody>
           </table>
-
+          
+          <!-- Incrementamos variable 'desde' para la paginación -->
           <button (click)="cambiarDesde(-5)" class="btn btn-secondary">Anteriores</button>
           <button (click)="cambiarDesde(5)" class="btn btn-secondary">Siguientes</button>
 
