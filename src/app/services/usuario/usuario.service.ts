@@ -41,14 +41,20 @@ export class UsuarioService {
     const url = URL_SERVICIO + '/usuario'; // Url de la petición
 
     // Hacemos la petición a la API para crear el usuario
-    return this.http.post(url, usuario).map( (response: any) => {
+    return this.http.post(url, usuario)
+                .map( (response: any) => {
 
+                  // Si la respuesta es correcta, tengo el usuario, envío una alerta
+                  swal('Usuario creado', usuario.email, 'success');
+                  return response.usuario;
 
-      // Si la respuesta es correcta, tengo el usuario, envío una alerta
-      swal('Usuario creado', usuario.email, 'success');
-      return response.usuario;
+                })
+                .catch (error => {  // Manejo de errores
 
-    });
+                  // console.log(error.error.mensaje);
+                  swal(error.error.mensaje, error.error.errors.message, 'error');
+                  return Observable.throw( error );
+                });
   }
 
 
@@ -61,25 +67,32 @@ export class UsuarioService {
     url += '?token=' +  this.token; // Concatenamos el token en la url porque la petición lo requiere
 
     // Hacemos la petición a la API para actualizar el usuario
-    return this.http.put(url, usuario).map( (response: any) => {
+    return this.http.put(url, usuario)
+              .map( (response: any) => {
 
-      // Solo guardo en localStorage si el usuario soy yo mismo
-      if (usuario._id === this.usuario._id) {
+                // Solo guardo en localStorage si el usuario soy yo mismo
+                if (usuario._id === this.usuario._id) {
 
-        // Guardo en variable local la respuesta de la API (actualizada)
-        const usuarioDB: Usuario = response.usuario;
+                  // Guardo en variable local la respuesta de la API (actualizada)
+                  const usuarioDB: Usuario = response.usuario;
 
-        // Guardo la respuesta actualizada en el localStorage
-        this.guardarEnLocalStorage(usuarioDB._id, this.token, usuarioDB, response.menu);
-      }
+                  // Guardo la respuesta actualizada en el localStorage
+                  this.guardarEnLocalStorage(usuarioDB._id, this.token, usuarioDB, response.menu);
+                }
 
 
-      // Si la respuesta es correcta, tengo el usuario actualizado, envío una alerta
-      swal('Usuario actualizado', usuario.nombre, 'success');
+                // Si la respuesta es correcta, tengo el usuario actualizado, envío una alerta
+                swal('Usuario actualizado', usuario.nombre, 'success');
 
-      return true;
+                return true;
 
-    });
+              })
+              .catch (error => {  // Manejo de errores
+
+                // console.log(error.error.mensaje);
+                swal(error.error.mensaje, error.error.errors.message, 'error');
+                return Observable.throw( error );
+              });
 
   }
 
@@ -100,21 +113,21 @@ export class UsuarioService {
 
     // Hacemos la petición a la API para hacer el login y guardamos la respuesta en el LocalStorage
     return this.http.post(url, usuario)
-            .map( (response: any) => {
+              .map( (response: any) => {
 
-              this.menu = response.menu; // Guardo el menú del usuario que me viene del backend
+                this.menu = response.menu; // Guardo el menú del usuario que me viene del backend
 
-              // Guardamos en el localStorage los datos del usuario que nos response la API
-              this.guardarEnLocalStorage( response.id, response.token, response.usuario, response.menu);
+                // Guardamos en el localStorage los datos del usuario que nos response la API
+                this.guardarEnLocalStorage( response.id, response.token, response.usuario, response.menu);
 
-              return true;
-            })
-            .catch (error => {  // Manejo de errores
+                return true;
+              })
+              .catch (error => {  // Manejo de errores
 
-              // console.log(error.error.mensaje);
-              swal('Error en el login', error.error.mensaje, 'error');
-              return Observable.throw( error );
-            });
+                // console.log(error.error.mensaje);
+                swal('Error en el login', error.error.mensaje, 'error');
+                return Observable.throw( error );
+              });
   }
 
 
