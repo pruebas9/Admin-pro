@@ -9,12 +9,14 @@ import { APP_ROUTES } from './app.routes';
 import { PagesModule } from './pages/pages.module';
 
 // Servicios
-import { ServiceModule } from './services/service.module';
+import { ServiceModule } from './services/service.module';  // Lo cargo con el LazyLoad
 
 // Componentes
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './login/register.component';
+import { PagesComponent } from './pages/pages.component';
+import { SharedModule } from './shared/shared.module';
 
 
 
@@ -23,14 +25,15 @@ import { RegisterComponent } from './login/register.component';
     AppComponent,
     LoginComponent,
     RegisterComponent,
+    PagesComponent
   ],
   imports: [
     BrowserModule,
     APP_ROUTES,
-    PagesModule,
     ServiceModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
