@@ -279,5 +279,40 @@ export class UsuarioService {
     });
 
   }
+
+
+  // =================================================================================
+  // Función para renovar el token del usuario
+  // Parámetros: ninguno
+  // =================================================================================
+  renuevaToken( usuario: Usuario ) {
+
+    const url = URL_SERVICIO + '/login/renuevatoken?token=' + this.token; // Generamos la url
+
+
+    // Llamamos al método de la API para renovar el token
+    return this.http.get(url)
+              .map ( (response: any) => {
+
+                // Actualizamos el token por el que nos viene
+                this.token = response.token;
+
+                // Guardo el token en el localStorage
+                localStorage.setItem('token', this.token);
+
+                return true; // Retornamos que todo ha salido bien
+              })
+              .catch (error => {  // Manejo de errores
+
+                // console.log(error.error.mensaje);
+                swal('No se pudo renovar el token', 'No fue posible renovar el token', 'error');
+
+                // Sacamos al usuario fuera y lo redirigimos al login
+                this.router.navigate(['/login']);
+
+                return Observable.throw( error );
+              });
+  }
+
 }
 
