@@ -7,6 +7,7 @@ import { ModalUploadService } from '../components/modal-upload/modal-upload.serv
 import {
   LoginGuardGuard,
   AdminGuard,
+  VerificaTokenGuard,
   SettingsService,
   SidebarService,
   SharedService,
@@ -26,6 +27,7 @@ import {
   providers: [
     LoginGuardGuard,
     AdminGuard,
+    VerificaTokenGuard,
     SettingsService,
     SidebarService,
     SharedService,

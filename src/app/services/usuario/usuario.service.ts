@@ -285,7 +285,7 @@ export class UsuarioService {
   // Función para renovar el token del usuario
   // Parámetros: ninguno
   // =================================================================================
-  renuevaToken( usuario: Usuario ) {
+  renuevaToken() {
 
     const url = URL_SERVICIO + '/login/renuevatoken?token=' + this.token; // Generamos la url
 
@@ -299,6 +299,7 @@ export class UsuarioService {
 
                 // Guardo el token en el localStorage
                 localStorage.setItem('token', this.token);
+                console.log('Token renovado');
 
                 return true; // Retornamos que todo ha salido bien
               })
